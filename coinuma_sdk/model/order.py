@@ -1,12 +1,13 @@
 import datetime
 from decimal import Decimal
+from uuid import UUID
 
 from coinuma_sdk.model import Model
 
 
 class Order(Model):
-    _orderID: int
-    _userID: int
+    _orderID: UUID
+    _userID: UUID
     _symbol: str
     _direction: str
     _order_type: str
@@ -29,9 +30,9 @@ class Order(Model):
 
     def map_raw_data(self, raw_data: dict) -> None:
         if 'orderID' in raw_data and raw_data['orderID']:
-            self.orderID = raw_data['orderID']
+            self.orderID = UUID(raw_data['orderID'])
         if 'userID' in raw_data and raw_data['userID']:
-            self.userID = raw_data['userID']
+            self.userID = UUID(raw_data['userID'])
         if 'symbol' in raw_data and raw_data['symbol']:
             self.symbol = raw_data['symbol']
         if 'direction' in raw_data and raw_data['direction']:
@@ -64,21 +65,21 @@ class Order(Model):
             self.date_closed = raw_data['date_closed']
 
     @property
-    def orderID(self) -> int:
+    def orderID(self) -> UUID:
         return self._orderID
 
     @orderID.setter
-    def orderID(self, value: int) -> None:
-        assert isinstance(value, int)
+    def orderID(self, value: UUID) -> None:
+        assert isinstance(value, UUID)
         self._orderID = value
 
     @property
-    def userID(self) -> int:
+    def userID(self) -> UUID:
         return self._userID
     
     @userID.setter
-    def userID(self, value: int) -> None:
-        assert isinstance(value, int)
+    def userID(self, value: UUID) -> None:
+        assert isinstance(value, UUID)
         self._userID = value
         
     @property

@@ -1,5 +1,6 @@
 import datetime
 from decimal import Decimal
+from uuid import UUID
 
 from dateutil import parser
 
@@ -7,7 +8,7 @@ from coinuma_sdk.model import Model
 
 
 class Trade(Model):
-    _trade_id: int
+    _trade_id: UUID
     _price: Decimal
     _quote_volume: Decimal
     _base_volume: Decimal
@@ -20,7 +21,7 @@ class Trade(Model):
 
     def map_raw_data(self, raw_data: dict) -> None:
         if 'trade_id' in raw_data and raw_data['trade_id']:
-            self.trade_id = raw_data['trade_id']
+            self.trade_id = UUID(raw_data['trade_id'])
         if 'price' in raw_data and raw_data['price']:
             self.price = Decimal(raw_data['price'])
         if 'quote_volume' in raw_data and raw_data['quote_volume']:
@@ -33,12 +34,12 @@ class Trade(Model):
             self.type = raw_data['type']
 
     @property
-    def trade_id(self) -> int:
+    def trade_id(self) -> UUID:
         return self._trade_id
     
     @trade_id.setter
-    def trade_id(self, value: int) -> None:
-        assert isinstance(value, int)
+    def trade_id(self, value: UUID) -> None:
+        assert isinstance(value, UUID)
         self._trade_id = value
     
     @property
